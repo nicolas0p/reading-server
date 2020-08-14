@@ -83,19 +83,30 @@ def portuguese_number_reader(number):
             ]
     filler = ' e '
     thousand_marker = 'mil'
+    signal = ""
+    if number < 0:
+        signal = "menos "
+        number = -number
     if number in irregulars_reading:
         return irregulars_reading[number]
     #only need to write zero when it is on its own
     del irregulars_reading[0]
+
     tens_ones_number = int(str(number)[-2:])
     tens_ones = handle_tens_and_ones(tens_ones_number, digit_reading,
             tens_reading, irregulars_reading, filler)
+
     hundreds = ""
     if len(str(number)) >= 3 and int(str(number)[-3]) != 0:
         hundreds_digit = int(str(number)[-3])
         hundreds = hundreds_reading[hundreds_digit - 1]
+        #handle irregularities
+        complete_hundred = int(str(number)[-3:])
+        if complete_hundred in irregulars_reading:
+            hundreds = irregulars_reading[complete_hundred]
         if tens_ones != "":
             hundreds += filler
+
     thousands = ""
     if len(str(number)) >= 4:
         tens_one_thousands_number = int(str(number)[-5:-3])
@@ -108,4 +119,4 @@ def portuguese_number_reader(number):
             hundreds_digit = int(str(number)[-3]) #it may have not been defined
             if hundreds_digit * 100 + tens_ones_number != 0:
                 thousands += filler
-    return thousands + hundreds + tens_ones
+    return signal + thousands + hundreds + tens_ones

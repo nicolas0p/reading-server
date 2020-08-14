@@ -102,5 +102,18 @@ class Portuguese_number_reader_test(unittest.TestCase):
         correct = "mil e seis"
         self.assertEqual(result, correct)
 
+    def test_one_thousand_and_digit(self):
+        number = 1100
+        result = reader(number)
+        correct = "mil e cem"
+        self.assertEqual(result, correct)
+
+    def test_negative_one_thousand(self):
+        number = -1000
+        result = reader(number)
+        correct = "menos mil"
+        self.assertEqual(result, correct)
+
+
 if __name__ == '__main__':
     unittest.main()
