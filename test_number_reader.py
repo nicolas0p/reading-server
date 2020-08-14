@@ -10,6 +10,9 @@ class Portuguese_number_reader_test(unittest.TestCase):
 
         cls.correct_tens = ['dez', 'vinte', 'trinta', 'quarenta', 'cinquenta',
                 'sessenta', 'setenta', 'oitenta', 'noventa']
+
+        cls.correct_irregular_tens = ['onze', 'doze', 'treze', 'quatorze', 'quinze',
+                'dezesseis', 'dezessete', 'dezoito', 'dezenove']
         cls.filler = 'e'
 
     def test_all_digits(self):
@@ -31,6 +34,14 @@ class Portuguese_number_reader_test(unittest.TestCase):
         result = reader(number)
         correct = "oitenta e três"
         self.assertEqual(result, correct)
+
+    def test_all_irregular_tens(self):
+        results = []
+        for number in range(len(self.correct_irregular_tens)):
+            reading = reader(11 + number)
+            results.append(reading)
+        self.assertListEqual(results, self.correct_irregular_tens)
+
 
 
 if __name__ == '__main__':
