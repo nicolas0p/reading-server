@@ -37,19 +37,40 @@ def portuguese_number_reader(number):
             "dezoito",
             "dezenove",
             ]
+    hundreds_reading = [
+            "cento",
+            "duzentos",
+            "trezentos",
+            "quatrocentos",
+            "quinhentos",
+            "seiscentos",
+            "setecentos",
+            "oitocentos",
+            "novecentos",
+            ]
     filler = ' e '
     ones_digit = int(str(number)[-1])
-    ones_reading = digit_reading[ones_digit]
-    if len(str(number)) == 1:
-        return ones_reading
-    if len(str(number)) == 2:
-
-        tens_digit = int(str(number)[0])
+    ones = digit_reading[ones_digit]
+    tens_ones = ""
+    hundreds = ""
+    tens_ones = ones
+    if len(str(number)) >= 2 and int(str(number)[-2]) != 0:
+        tens_digit = int(str(number)[-2])
         tens = tens_reading[tens_digit - 1]
-        if int(str(number)[1]) == 0:
-            return tens
+        if ones_digit == 0:
+            tens_ones = tens
+        else:
+            tens_ones = tens + filler + ones
+            if tens_digit == 1:
+                tens_ones = irregular_tens_reading[ones_digit - 1]
 
-        if tens_digit == 1:
-            return irregular_tens_reading[ones_digit - 1]
-
-        return tens + filler + ones_reading
+    if len(str(number)) >= 3:
+        hundreds_digit = int(str(number)[-3])
+        hundreds = hundreds_reading[hundreds_digit - 1]
+        if tens_ones == "zero":
+            tens_ones = ""
+            if hundreds_digit == 1:
+                hundreds = "cem"
+        else:
+            hundreds += filler
+    return hundreds + tens_ones

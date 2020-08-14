@@ -13,6 +13,10 @@ class Portuguese_number_reader_test(unittest.TestCase):
 
         cls.correct_irregular_tens = ['onze', 'doze', 'treze', 'quatorze', 'quinze',
                 'dezesseis', 'dezessete', 'dezoito', 'dezenove']
+
+        cls.correct_hundreds = ['duzentos', 'trezentos', 'quatrocentos', 'quinhentos',
+                'seiscentos', 'setecentos', 'oitocentos', 'novecentos']
+
         cls.filler = 'e'
 
     def test_all_digits(self):
@@ -41,6 +45,26 @@ class Portuguese_number_reader_test(unittest.TestCase):
             reading = reader(11 + number)
             results.append(reading)
         self.assertListEqual(results, self.correct_irregular_tens)
+
+    def test_all_hundreds(self):
+        #import pdb; pdb.set_trace()
+        results = []
+        for number in range(len(self.correct_hundreds)):
+            reading = reader((number + 2) * 100)
+            results.append(reading)
+        self.assertListEqual(results, self.correct_hundreds)
+
+    def test_composite_one_hundred(self):
+        number = 183
+        result = reader(number)
+        correct = "cento e oitenta e três"
+        self.assertEqual(result, correct)
+
+    def test_irregular_hundred(self):
+        number = 100
+        result = reader(number)
+        correct = "cem"
+        self.assertEqual(result, correct)
 
 
 
