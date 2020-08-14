@@ -102,6 +102,8 @@ class Portuguese_number_reader():
 # @param minus word that represents a negative number
 # @return string containing the given number written in full.
 def number_reader(number, digits_reading, tens_reading, hundreds_reading, irregulars_reading, filler, thousand_marker, minus):
+    if not isinstance(number, int):
+        raise TypeError("number_reader: argument must be an integer number")
     if number > 99999 or number < -99999:
         raise ValueError("number_reader: number has to be in the [-99999, 99999] range.")
     signal = ""
