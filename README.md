@@ -5,7 +5,7 @@ This project's goal is to create an HTTP server able to receive an integer betwe
 
 ## Executing
 
-This project is dockerized, to build the project's docker image, use the following command:
+This project is dockerized, to build the project's docker image, use the following command after having cloned this repository and `cd`ed into its directory:
 ```
 docker build -t reading_server_image .
 ```
