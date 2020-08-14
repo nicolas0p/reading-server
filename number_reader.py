@@ -31,61 +31,65 @@ def handle_tens_and_ones(number, digits_reading, tens_reading, irregulars_readin
     return tens_ones
 
 
-## Writes a number in full in Portuguese.
-# @param number in [-99999, 99999] integer to be read.
-# @return string containing the given number written in full in Portuguese.
-def portuguese_number_reader(number):
-    portuguese = {}
-    portuguese["digits_reading"] = [
-            "um",
-            "dois",
-            "três",
-            "quatro",
-            "cinco",
-            "seis",
-            "sete",
-            "oito",
-            "nove",
-            ]
-    portuguese["tens_reading"] = [
-            "dez",
-            "vinte",
-            "trinta",
-            "quarenta",
-            "cinquenta",
-            "sessenta",
-            "setenta",
-            "oitenta",
-            "noventa",
-            ]
-    portuguese["irregulars_reading"] = {
-            0: "zero",
-            11: "onze",
-            12: "doze",
-            13: "treze",
-            14: "quatorze",
-            15: "quinze",
-            16: "dezesseis",
-            17: "dezessete",
-            18: "dezoito",
-            19: "dezenove",
-            100: "cem",
-            }
-    portuguese["hundreds_reading"] = [
-            "cento",
-            "duzentos",
-            "trezentos",
-            "quatrocentos",
-            "quinhentos",
-            "seiscentos",
-            "setecentos",
-            "oitocentos",
-            "novecentos",
-            ]
-    portuguese["filler"] = ' e '
-    portuguese["thousand_marker"] = 'mil'
-    portuguese["minus"] = "menos"
-    return number_reader(number, **portuguese)
+class Portuguese_number_reader():
+    json_key = "extenso"
+
+    ## Writes a number in full in Portuguese.
+    # @param number in [-99999, 99999] integer to be read.
+    # @return string containing the given number written in full in Portuguese.
+    @classmethod
+    def read_number(cls, number):
+        portuguese = {}
+        portuguese["digits_reading"] = [
+                "um",
+                "dois",
+                "três",
+                "quatro",
+                "cinco",
+                "seis",
+                "sete",
+                "oito",
+                "nove",
+                ]
+        portuguese["tens_reading"] = [
+                "dez",
+                "vinte",
+                "trinta",
+                "quarenta",
+                "cinquenta",
+                "sessenta",
+                "setenta",
+                "oitenta",
+                "noventa",
+                ]
+        portuguese["irregulars_reading"] = {
+                0: "zero",
+                11: "onze",
+                12: "doze",
+                13: "treze",
+                14: "quatorze",
+                15: "quinze",
+                16: "dezesseis",
+                17: "dezessete",
+                18: "dezoito",
+                19: "dezenove",
+                100: "cem",
+                }
+        portuguese["hundreds_reading"] = [
+                "cento",
+                "duzentos",
+                "trezentos",
+                "quatrocentos",
+                "quinhentos",
+                "seiscentos",
+                "setecentos",
+                "oitocentos",
+                "novecentos",
+                ]
+        portuguese["filler"] = ' e '
+        portuguese["thousand_marker"] = 'mil'
+        portuguese["minus"] = "menos"
+        return number_reader(number, **portuguese)
 
 ## Writes a number in full in the language defined by the parameters.
 # @param number in [-99999, 99999] integer to be read.
