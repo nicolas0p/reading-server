@@ -91,7 +91,6 @@ class Portuguese_number_reader_test(unittest.TestCase):
 
     def test_one_thousand_alone(self):
         number = 1000
-        #import pdb; pdb.set_trace()
         result = reader(number)
         correct = "mil"
         self.assertEqual(result, correct)
@@ -114,6 +113,11 @@ class Portuguese_number_reader_test(unittest.TestCase):
         correct = "menos mil"
         self.assertEqual(result, correct)
 
+    def test_out_of_range_number(self):
+        number = 150000
+        self.assertRaises(ValueError, reader, number)
+        number = -150000
+        self.assertRaises(ValueError, reader, number)
 
 if __name__ == '__main__':
     unittest.main()
