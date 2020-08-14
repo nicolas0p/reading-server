@@ -1,25 +1,25 @@
 
 ## Writes a number containing one digit in full
 # @param number number to be written in full
-# @param digit_reading list of readings of single digits
+# @param digits_reading list of readings of single digits
 # @return string containing the reading in full of the number
-def handle_ones(number, digit_reading):
+def handle_ones(number, digits_reading):
     if number == 0:
         return ""
-    return digit_reading[number - 1]
+    return digits_reading[number - 1]
 
 ## Writes a number containing two digits in full
 # @param number number to be written in full
-# @param digit_reading list of readings of single digits
+# @param digits_reading list of readings of single digits
 # @param tens_reading list of readings for multiples of ten
 # @param irregulars_reading dict of {irregular_number : its reading}
 # @param filler word that goes between number readings
 # @return string containing the reading in full of the number
-def handle_tens_and_ones(number, digit_reading, tens_reading, irregulars_reading, filler):
+def handle_tens_and_ones(number, digits_reading, tens_reading, irregulars_reading, filler):
     if number in irregulars_reading:
         return irregulars_reading[number]
     ones_digit = int(str(number)[-1])
-    ones = handle_ones(ones_digit, digit_reading)
+    ones = handle_ones(ones_digit, digits_reading)
     tens_ones = ones
     if len(str(number)) >= 2 and int(str(number)[-2]) != 0:
         tens_digit = int(str(number)[-2])
@@ -35,7 +35,8 @@ def handle_tens_and_ones(number, digit_reading, tens_reading, irregulars_reading
 # @param number in [-99999, 99999] integer to be read.
 # @return string containing the given number written in full in Portuguese.
 def portuguese_number_reader(number):
-    digit_reading = [
+    portuguese = {}
+    portuguese["digits_reading"] = [
             "um",
             "dois",
             "três",
@@ -46,7 +47,7 @@ def portuguese_number_reader(number):
             "oito",
             "nove",
             ]
-    tens_reading = [
+    portuguese["tens_reading"] = [
             "dez",
             "vinte",
             "trinta",
@@ -57,7 +58,7 @@ def portuguese_number_reader(number):
             "oitenta",
             "noventa",
             ]
-    irregulars_reading = {
+    portuguese["irregulars_reading"] = {
             0: "zero",
             11: "onze",
             12: "doze",
@@ -70,7 +71,7 @@ def portuguese_number_reader(number):
             19: "dezenove",
             100: "cem",
             }
-    hundreds_reading = [
+    portuguese["hundreds_reading"] = [
             "cento",
             "duzentos",
             "trezentos",
@@ -81,11 +82,27 @@ def portuguese_number_reader(number):
             "oitocentos",
             "novecentos",
             ]
-    filler = ' e '
-    thousand_marker = 'mil'
+    portuguese["filler"] = ' e '
+    portuguese["thousand_marker"] = 'mil'
+    portuguese["minus"] = "menos"
+    return number_reader(number, **portuguese)
+
+## Writes a number in full in the language defined by the parameters.
+# @param number in [-99999, 99999] integer to be read.
+# @param digits_reading list of readings of single digits
+# @param tens_reading list of readings for multiples of ten
+# @param hundreds_reading list of readings for multiples of a hundred
+# @param irregulars_reading dict of {irregular_number : its reading}
+# @param filler word that goes between number readings
+# @param thousand_marker word to mark the thousand digit
+# @param minus word that represents a negative number
+# @return string containing the given number written in full.
+def number_reader(number, digits_reading, tens_reading, hundreds_reading, irregulars_reading, filler, thousand_marker, minus):
+    if number > 99999 or number < -99999:
+        raise ValueError("number_reader: number has to be in the [-99999, 99999] range.")
     signal = ""
     if number < 0:
-        signal = "menos "
+        signal = minus + " "
         number = -number
     if number in irregulars_reading:
         return irregulars_reading[number]
@@ -93,7 +110,7 @@ def portuguese_number_reader(number):
     del irregulars_reading[0]
 
     tens_ones_number = int(str(number)[-2:])
-    tens_ones = handle_tens_and_ones(tens_ones_number, digit_reading,
+    tens_ones = handle_tens_and_ones(tens_ones_number, digits_reading,
             tens_reading, irregulars_reading, filler)
 
     hundreds = ""
@@ -111,7 +128,7 @@ def portuguese_number_reader(number):
     if len(str(number)) >= 4:
         tens_one_thousands_number = int(str(number)[-5:-3])
         tens_one_thousands = handle_tens_and_ones(tens_one_thousands_number,
-                digit_reading, tens_reading, irregulars_reading, filler)
+                digits_reading, tens_reading, irregulars_reading, filler)
         if tens_one_thousands != "":
             thousands = tens_one_thousands + " " + thousand_marker
             if tens_one_thousands_number == 1:
