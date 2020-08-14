@@ -13,3 +13,5 @@ To execute the reading server inside the docker container, use:
 ```
 docker run -it --name reading_server -p 8080:8080 reading_server
 ```
+
+The server will be listening on port 8080 by default.
