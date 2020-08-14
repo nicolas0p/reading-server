@@ -58,6 +58,7 @@ def portuguese_number_reader(number):
             "noventa",
             ]
     irregulars_reading = {
+            0: "zero",
             11: "onze",
             12: "doze",
             13: "treze",
@@ -67,6 +68,7 @@ def portuguese_number_reader(number):
             17: "dezessete",
             18: "dezoito",
             19: "dezenove",
+            100: "cem",
             }
     hundreds_reading = [
             "cento",
@@ -80,18 +82,30 @@ def portuguese_number_reader(number):
             "novecentos",
             ]
     filler = ' e '
-    if number == 0:
-        return "zero"
+    thousand_marker = 'mil'
+    if number in irregulars_reading:
+        return irregulars_reading[number]
+    #only need to write zero when it is on its own
+    del irregulars_reading[0]
     tens_ones_number = int(str(number)[-2:])
     tens_ones = handle_tens_and_ones(tens_ones_number, digit_reading,
             tens_reading, irregulars_reading, filler)
     hundreds = ""
-    if len(str(number)) >= 3:
+    if len(str(number)) >= 3 and int(str(number)[-3]) != 0:
         hundreds_digit = int(str(number)[-3])
         hundreds = hundreds_reading[hundreds_digit - 1]
-        if tens_ones == "":
-            if hundreds_digit == 1:
-                hundreds = "cem"
-        else:
+        if tens_ones != "":
             hundreds += filler
-    return hundreds + tens_ones
+    thousands = ""
+    if len(str(number)) >= 4:
+        tens_one_thousands_number = int(str(number)[-5:-3])
+        tens_one_thousands = handle_tens_and_ones(tens_one_thousands_number,
+                digit_reading, tens_reading, irregulars_reading, filler)
+        if tens_one_thousands != "":
+            thousands = tens_one_thousands + " " + thousand_marker
+            if tens_one_thousands_number == 1:
+                thousands = thousand_marker
+            hundreds_digit = int(str(number)[-3]) #it may have not been defined
+            if hundreds_digit * 100 + tens_ones_number != 0:
+                thousands += filler
+    return thousands + hundreds + tens_ones

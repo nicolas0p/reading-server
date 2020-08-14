@@ -47,7 +47,6 @@ class Portuguese_number_reader_test(unittest.TestCase):
         self.assertListEqual(results, self.correct_irregular_tens)
 
     def test_all_hundreds(self):
-        #import pdb; pdb.set_trace()
         results = []
         for number in range(len(self.correct_hundreds)):
             reading = reader((number + 2) * 100)
@@ -66,7 +65,42 @@ class Portuguese_number_reader_test(unittest.TestCase):
         correct = "cem"
         self.assertEqual(result, correct)
 
+    def test_composite_thousand(self):
+        number = 3254
+        result = reader(number)
+        correct = "três mil e duzentos e cinquenta e quatro"
+        self.assertEqual(result, correct)
 
+    def test_ten_thousand_alone(self):
+        number = 18000
+        result = reader(number)
+        correct = "dezoito mil"
+        self.assertEqual(result, correct)
+
+    def test_ten_thousand_and_hundred(self):
+        number = 10900
+        result = reader(number)
+        correct = "dez mil e novecentos"
+        self.assertEqual(result, correct)
+
+    def test_ten_thousand_and_ten(self):
+        number = 40091
+        result = reader(number)
+        correct = "quarenta mil e noventa e um"
+        self.assertEqual(result, correct)
+
+    def test_one_thousand_alone(self):
+        number = 1000
+        #import pdb; pdb.set_trace()
+        result = reader(number)
+        correct = "mil"
+        self.assertEqual(result, correct)
+
+    def test_one_thousand_and_digit(self):
+        number = 1006
+        result = reader(number)
+        correct = "mil e seis"
+        self.assertEqual(result, correct)
 
 if __name__ == '__main__':
     unittest.main()
