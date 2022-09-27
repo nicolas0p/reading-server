@@ -111,7 +111,7 @@ def number_reader(number, digits_reading, tens_reading, hundreds_reading, irregu
         signal = minus + " "
         number = -number
     if number in irregulars_reading:
-        return irregulars_reading[number]
+        return signal + irregulars_reading[number]
     #only need to write zero when it is on its own
     del irregulars_reading[0]
 

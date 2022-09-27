@@ -111,5 +111,11 @@ class Portuguese_number_reader_test(unittest.TestCase):
         number = -150000
         self.assertRaises(ValueError, reader.read_number, number)
 
+    def test_negative_exceptions(self):
+        number = -18
+        result = reader.read_number(number)
+        correct = "menos dezoito"
+        self.assertEqual(result, correct)
+
 if __name__ == '__main__':
     unittest.main()
